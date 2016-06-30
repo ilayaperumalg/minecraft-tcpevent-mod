@@ -1,14 +1,14 @@
 [
 {
   "modid": "tcpevent",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "name": "TCP Events Mod",
+  "description": "Broadcasts world events as JSON over tcp",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://github.com/ericbottard/minecraft-tcpevent-mod",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Eric Bottard", "Ilayaperumal Gopinathan"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
