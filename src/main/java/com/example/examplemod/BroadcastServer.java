@@ -2,11 +2,15 @@ package com.example.examplemod;
 
 import com.example.examplemod.mixin.BlockEventMixin;
 import com.example.examplemod.mixin.BlockEventPlaceEventMixin;
+import com.example.examplemod.mixin.BlockMixin;
 import com.example.examplemod.mixin.BlockPosMixin;
 import com.example.examplemod.mixin.EntityPlayerMixin;
+import com.example.examplemod.mixin.IBlockStateMixin;
+import com.example.examplemod.mixin.MapColorMixin;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -20,6 +24,9 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.MapColor;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.world.BlockEvent;
@@ -54,6 +61,11 @@ public class BroadcastServer {
 		objectMapper.addMixIn(BlockEvent.PlaceEvent.class, BlockEventPlaceEventMixin.class);
 		objectMapper.addMixIn(BlockPos.class, BlockPosMixin.class);
 		objectMapper.addMixIn(EntityPlayer.class, EntityPlayerMixin.class);
+		objectMapper.addMixIn(IBlockState.class, IBlockStateMixin.class);
+		objectMapper.addMixIn(Block.class, BlockMixin.class);
+		objectMapper.addMixIn(MapColor.class, MapColorMixin.class);
+
+		objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
 	}
 
 	public void broadcast(Object o) {
