@@ -2,10 +2,12 @@ package com.example.examplemod;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLModDisabledEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * A simple mod that broadcasts all sorts of Minecraft events over a tcp server using Netty.
@@ -50,10 +52,21 @@ public class TcpEventsMod {
 		t.start();
 
 		MinecraftForge.EVENT_BUS.register(new BroadcastEventListener(broadcastServer));
+		MinecraftForge.EVENT_BUS.register(new GuiConfigListener());
 	}
 
 	@EventHandler
 	public void disable(FMLModDisabledEvent event) {
 		System.out.println("Disable " + event);
 	}
+
+	private static class GuiConfigListener {
+		@SubscribeEvent
+		public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+			if (event.getModID().equals(MODID)) {
+				config.save();
+			}
+		}
+	}
+
 }
